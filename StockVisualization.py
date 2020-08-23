@@ -1,4 +1,3 @@
-# note this is a modifed version of the jupyter notebook version to be able to use the functions with a gui
 # imports
 import pandas as pd
 import numpy as np
@@ -44,6 +43,8 @@ def generateMACDDiff(df, periodShort=12, periodLong=26, periodSign=9):
 
 def generatePercentageChange(df):
   return df["Adj Close"].pct_change()*100
+
+
 
 figures = []
 def plotAdjClose(df, size=(15,6)):
@@ -119,6 +120,7 @@ def findFallingKnives(df, ticker):
   # you have to change the conditions within this function
   SmaWindow=7
   newDf = stockSetup(df, ticker)
+  newDf = newDf[newDf.index.year.isin([2019])]
   newDf["RSI"] = generateRSI(newDf)
   newDf["MACD"] = generateMACD(newDf)
   newDf["SMA"] = newDf['Adj Close'].rolling(window=SmaWindow).mean()
@@ -147,8 +149,9 @@ def findFallingKnives(df, ticker):
 
 def main():
   df = pd.read_csv("Official_Dataset.csv")
-  AAPLFallingKnives = findFallingKnives(df, "AAPL")
-  plotAdjClose(AAPLFallingKnives[0])
+  AAPLFallingKnives = findFallingKnives(df, "JNJ")
+  print(len(AAPLFallingKnives))
+  
     
   
 if __name__ == "__main__":
